@@ -1,15 +1,232 @@
-import * as express from 'express';
-import { Sanitizer } from '../filter';
-import { Location } from './location';
+import * as express from "express";
+import { Sanitizer } from "../filter";
+import { Location } from "./location";
 
-export type URLProtocol = 'http' | 'https' | 'ftp'
-export type UUIDVersion = 3 | 4 | 5 | 'all'
-export type IPVersion = 4 | 6
-export type AlphaLocale = 'ar' | 'ar-AE' | 'ar-BH' | 'ar-DZ' | 'ar-EG' | 'ar-IQ' | 'ar-JO' | 'ar-KW' | 'ar-LB' | 'ar-LY' | 'ar-MA' | 'ar-QA' | 'ar-QM' | 'ar-SA' | 'ar-SD' | 'ar-SY' | 'ar-TN' | 'ar-YE' | 'bg-BG' | 'cs-CZ' | 'da-DK' | 'de-DE' | 'el-GR' | 'en-AU' | 'en-GB' | 'en-HK' | 'en-IN' | 'en-NZ' | 'en-US' | 'en-ZA' | 'en-ZM' | 'es-ES' | 'fr-FR' | 'hu-HU' | 'it-IT' | 'nb-NO' | 'nl-NL' | 'nn-NO' | 'pl-PL' | 'pt-BR' | 'pt-PT' | 'ru-RU' | 'sk-SK' | 'sr-RS' | 'sr-RS@latin' | 'sv-SE' | 'tr-TR' | 'uk-UA'
-export type AlphanumericLocale = 'ar' | 'ar-AE' | 'ar-BH' | 'ar-DZ' | 'ar-EG' | 'ar-IQ' | 'ar-JO' | 'ar-KW' | 'ar-LB' | 'ar-LY' | 'ar-MA' | 'ar-QA' | 'ar-QM' | 'ar-SA' | 'ar-SD' | 'ar-SY' | 'ar-TN' | 'ar-YE' | 'bg-BG' | 'cs-CZ' | 'da-DK' | 'de-DE' | 'el-GR' | 'en-AU' | 'en-GB' | 'en-HK' | 'en-IN' | 'en-NZ' | 'en-US' | 'en-ZA' | 'en-ZM' | 'es-ES' | 'fr-FR' | 'fr-BE' | 'hu-HU' | 'it-IT' | 'nb-NO' | 'nl-BE' | 'nl-NL' | 'nn-NO' | 'pl-PL' | 'pt-BR' | 'pt-PT' | 'ru-RU' | 'sk-SK' | 'sr-RS' | 'sr-RS@latin' | 'sv-SE' | 'tr-TR' | 'uk-UA'
-export type MobilePhoneLocal = 'any' | 'ar-AE' | 'ar-DZ' | 'ar-EG' | 'ar-JO' | 'ar-KW' | 'ar-SA' | 'ar-SY' | 'ar-TN' | 'be-BY' | 'bg-BG' | 'cs-CZ' | 'de-DE' | 'da-DK' | 'el-GR' | 'en-AU' | 'en-GB' | 'en-HK' | 'en-IN' | 'en-KE' | 'en-NG' | 'en-NZ' | 'en-PK' | 'en-RW' | 'en-SG' | 'en-TZ' | 'en-UG' | 'en-US' | 'en-CA' | 'en-ZA' | 'en-ZM' | 'es-ES' | 'et-EE' | 'fa-IR' | 'fi-FI' | 'fo-FO' | 'fr-FR' | 'he-IL' | 'hu-HU' | 'id-ID' | 'it-IT' | 'ja-JP' | 'kk-KZ' | 'kl-GL' | 'lt-LT' | 'ms-MY' | 'nb-NO' | 'nn-NO' | 'pl-PL' | 'pt-PT' | 'ro-RO' | 'ru-RU' | 'sk-SK' | 'sr-RS' | 'sv-SE' | 'th-TH' | 'tr-TR' | 'uk-UA' | 'vi-VN' | 'zh-CN' | 'zh-HK' | 'zh-TW'
-export type PostalCodeLocale = 'any' | 'AT' | 'AU' | 'BE' | 'BG' | 'CA' | 'CH' | 'CZ' | 'DE' | 'DK' | 'DZ' | 'EE' | 'ES' | 'FI' | 'FR' | 'GB' | 'GR' | 'HR' | 'HU' | 'IL' | 'IN' | 'IS' | 'IT' | 'JP' | 'KE' | 'LI' | 'LT' | 'LU' | 'LV' | 'MX' | 'NL' | 'NO' | 'PL' | 'PT' | 'RO' | 'RU' | 'SA' | 'SE' | 'SI' | 'TN' | 'TW' | 'US' | 'ZA' | 'ZM';
-export type HashAlgorithm = 'md4' | 'md5' | 'sha1' | 'sha256'| 'sha384'| 'sha512'| 'ripemd128'| 'ripemd160'| 'tiger128'| 'tiger160'| 'tiger192'| 'crc32'| 'crc32b';
+export type URLProtocol = "http" | "https" | "ftp";
+export type UUIDVersion = 3 | 4 | 5 | "all";
+export type IPVersion = 4 | 6;
+export type AlphaLocale =
+  | "ar"
+  | "ar-AE"
+  | "ar-BH"
+  | "ar-DZ"
+  | "ar-EG"
+  | "ar-IQ"
+  | "ar-JO"
+  | "ar-KW"
+  | "ar-LB"
+  | "ar-LY"
+  | "ar-MA"
+  | "ar-QA"
+  | "ar-QM"
+  | "ar-SA"
+  | "ar-SD"
+  | "ar-SY"
+  | "ar-TN"
+  | "ar-YE"
+  | "bg-BG"
+  | "cs-CZ"
+  | "da-DK"
+  | "de-DE"
+  | "el-GR"
+  | "en-AU"
+  | "en-GB"
+  | "en-HK"
+  | "en-IN"
+  | "en-NZ"
+  | "en-US"
+  | "en-ZA"
+  | "en-ZM"
+  | "es-ES"
+  | "fr-FR"
+  | "hu-HU"
+  | "it-IT"
+  | "nb-NO"
+  | "nl-NL"
+  | "nn-NO"
+  | "pl-PL"
+  | "pt-BR"
+  | "pt-PT"
+  | "ru-RU"
+  | "sk-SK"
+  | "sr-RS"
+  | "sr-RS@latin"
+  | "sv-SE"
+  | "tr-TR"
+  | "uk-UA";
+export type AlphanumericLocale =
+  | "ar"
+  | "ar-AE"
+  | "ar-BH"
+  | "ar-DZ"
+  | "ar-EG"
+  | "ar-IQ"
+  | "ar-JO"
+  | "ar-KW"
+  | "ar-LB"
+  | "ar-LY"
+  | "ar-MA"
+  | "ar-QA"
+  | "ar-QM"
+  | "ar-SA"
+  | "ar-SD"
+  | "ar-SY"
+  | "ar-TN"
+  | "ar-YE"
+  | "bg-BG"
+  | "cs-CZ"
+  | "da-DK"
+  | "de-DE"
+  | "el-GR"
+  | "en-AU"
+  | "en-GB"
+  | "en-HK"
+  | "en-IN"
+  | "en-NZ"
+  | "en-US"
+  | "en-ZA"
+  | "en-ZM"
+  | "es-ES"
+  | "fr-FR"
+  | "fr-BE"
+  | "hu-HU"
+  | "it-IT"
+  | "nb-NO"
+  | "nl-BE"
+  | "nl-NL"
+  | "nn-NO"
+  | "pl-PL"
+  | "pt-BR"
+  | "pt-PT"
+  | "ru-RU"
+  | "sk-SK"
+  | "sr-RS"
+  | "sr-RS@latin"
+  | "sv-SE"
+  | "tr-TR"
+  | "uk-UA";
+export type MobilePhoneLocal =
+  | "any"
+  | "ar-AE"
+  | "ar-DZ"
+  | "ar-EG"
+  | "ar-JO"
+  | "ar-KW"
+  | "ar-SA"
+  | "ar-SY"
+  | "ar-TN"
+  | "be-BY"
+  | "bg-BG"
+  | "cs-CZ"
+  | "de-DE"
+  | "da-DK"
+  | "el-GR"
+  | "en-AU"
+  | "en-GB"
+  | "en-HK"
+  | "en-IN"
+  | "en-KE"
+  | "en-NG"
+  | "en-NZ"
+  | "en-PK"
+  | "en-RW"
+  | "en-SG"
+  | "en-TZ"
+  | "en-UG"
+  | "en-US"
+  | "en-CA"
+  | "en-ZA"
+  | "en-ZM"
+  | "es-ES"
+  | "et-EE"
+  | "fa-IR"
+  | "fi-FI"
+  | "fo-FO"
+  | "fr-FR"
+  | "he-IL"
+  | "hu-HU"
+  | "id-ID"
+  | "it-IT"
+  | "ja-JP"
+  | "kk-KZ"
+  | "kl-GL"
+  | "lt-LT"
+  | "ms-MY"
+  | "nb-NO"
+  | "nn-NO"
+  | "pl-PL"
+  | "pt-PT"
+  | "ro-RO"
+  | "ru-RU"
+  | "sk-SK"
+  | "sr-RS"
+  | "sv-SE"
+  | "th-TH"
+  | "tr-TR"
+  | "uk-UA"
+  | "vi-VN"
+  | "zh-CN"
+  | "zh-HK"
+  | "zh-TW";
+export type PostalCodeLocale =
+  | "any"
+  | "AT"
+  | "AU"
+  | "BE"
+  | "BG"
+  | "CA"
+  | "CH"
+  | "CZ"
+  | "DE"
+  | "DK"
+  | "DZ"
+  | "EE"
+  | "ES"
+  | "FI"
+  | "FR"
+  | "GB"
+  | "GR"
+  | "HR"
+  | "HU"
+  | "IL"
+  | "IN"
+  | "IS"
+  | "IT"
+  | "JP"
+  | "KE"
+  | "LI"
+  | "LT"
+  | "LU"
+  | "LV"
+  | "MX"
+  | "NL"
+  | "NO"
+  | "PL"
+  | "PT"
+  | "RO"
+  | "RU"
+  | "SA"
+  | "SE"
+  | "SI"
+  | "TN"
+  | "TW"
+  | "US"
+  | "ZA"
+  | "ZM";
+export type HashAlgorithm =
+  | "md4"
+  | "md5"
+  | "sha1"
+  | "sha256"
+  | "sha384"
+  | "sha512"
+  | "ripemd128"
+  | "ripemd160"
+  | "tiger128"
+  | "tiger160"
+  | "tiger192"
+  | "crc32"
+  | "crc32b";
 
 export interface Validator {
   isAfter(date?: string): this;
@@ -54,7 +271,10 @@ export interface Validator {
   isMD5(): this;
   isMimeType(): this;
   isMongoId(): this;
-  isMobilePhone(locale: MobilePhoneLocal | MobilePhoneLocal[], options?: ValidatorOptions.IsMobilePhoneOptions): this;
+  isMobilePhone(
+    locale: MobilePhoneLocal | MobilePhoneLocal[],
+    options?: ValidatorOptions.IsMobilePhoneOptions
+  ): this;
   isMultibyte(): this;
   isNumeric(): this;
   isPostalCode(locale: PostalCodeLocale): this;
@@ -79,16 +299,25 @@ export interface Validator {
   withMessage(message: any): this;
 }
 
-export interface ValidationChain extends express.RequestHandler, Validator, Sanitizer {
+export interface ValidationChain
+  extends express.RequestHandler,
+    Validator,
+    Sanitizer {
   custom(validator: CustomValidator): this;
 }
 
 export interface CustomValidator {
-  (value: any, options: { req: express.Request, location: string, path: string }): any;
+  (
+    value: any,
+    options: { req: express.Request; location: string; path: string }
+  ): any;
 }
 
 export interface CustomMessageBuilder {
-  (value: any, options: { req: express.Request, location: Location, path: string }): any;
+  (
+    value: any,
+    options: { req: express.Request; location: Location; path: string }
+  ): any;
 }
 
 export namespace ValidatorOptions {
@@ -185,8 +414,8 @@ export namespace ValidatorOptions {
    * }
    */
   interface IsISSNOptions {
-    case_sensitive?: boolean
-    require_hyphen?: boolean
+    case_sensitive?: boolean;
+    require_hyphen?: boolean;
   }
 
   /**
@@ -226,7 +455,7 @@ export namespace ValidatorOptions {
 
   interface OptionalOptions {
     checkFalsy?: boolean;
-    nullable?: boolean;
+    options?: { nullable?: boolean };
   }
 
   /**
